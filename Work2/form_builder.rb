@@ -19,7 +19,7 @@ if __FILE__ == $0
     text_field name: "username", placeholder: "Enter your username", label: "Username"
     text_field name: "email", placeholder: "Enter your email", label: "Email Address", required: true
     checkbox name: "agree_terms", label: "I agree to the terms and conditions"
-    button text: "Submit", style: "background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer;"
+    button text: "Submit", style: "background-color: #ff82b0; color: white; padding: 10px 20px; border: none; cursor: pointer;"
   end
 
   puts form_html
