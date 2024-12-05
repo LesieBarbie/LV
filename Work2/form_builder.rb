@@ -8,7 +8,7 @@ class FormBuilder
   end
 end
 
-if __FILE == $0
+if __FILE__ == $0
   form_html = FormBuilder.create(action: "/submit", method: "post") do
     text_field name: "username", placeholder: "Enter your username"
     text_field name: "email", placeholder: "Enter your email"
