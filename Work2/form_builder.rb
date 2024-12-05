@@ -1,6 +1,5 @@
 require_relative 'html_form'
 
-# Клас для створення форми через DSL
 class FormBuilder
   def self.create(action:, method:, &block)
     new_form(action: action, method: method, &block).to_html
@@ -11,12 +10,6 @@ class FormBuilder
     form.instance_eval(&block)
     form
   end
-
-def self.new_form(action:, method:, &block)
-  form = HTMLForm.new(action: action, method: method)
-  form.instance_eval(&block)
-  form
-end
 end
 
 # Приклад використання DSL
