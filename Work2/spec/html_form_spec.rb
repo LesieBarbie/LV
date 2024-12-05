@@ -1,8 +1,21 @@
 require 'rspec'
-require_relative 'html_form'
+require_relative '../html_form'
 
-RSpec.describe HTMLForm do
-  let(:form) { HTMLForm.new(action: "/submit", method: "post") }
+
+RSpec.describe FormBuilder do
+  describe '.create' do
+    it 'creates an HTML form based on the provided DSL block' do
+      form_html = FormBuilder.create(action: "/submit", method: "post") do
+        heading text: "Test Form", level: 2
+        text_field name: "username", placeholder: "Enter your username", label: "Username", required: true
+      end
+
+      expect(form_html).to include("<form action=\"/submit\" method=\"post\"")
+      expect(form_html).to include("<h2 style='text-align: center;'>Test Form</h2>")
+      expect(form_html).to include("<input type='text' id='username' name='username' placeholder='Enter your username' required")
+    end
+  end
+
 
   describe '#heading' do
     it 'adds a heading to the form' do
