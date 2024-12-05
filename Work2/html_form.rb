@@ -36,9 +36,20 @@ class HTMLForm
 
   def radio_group(name:, label:, options: {})
     options_html = options.map do |value, label_text|
-      "<label><input type='radio' name='#{name}' value='#{value}' style='margin-right: 5px;' /> #{label_text}</label>"
+      unique_id = "#{name}_#{value}" # Унікальний id для кожної кнопки
+      <<~HTML
+        <label for='#{unique_id}'>
+          <input type='radio' id='#{unique_id}' name='#{name}' value='#{value}' style='margin-right: 5px;' /> #{label_text}
+        </label>
+      HTML
     end.join("<br>")
-    add_field_with_label(name, label) { options_html }
+
+    @fields << <<~HTML
+      <div style="margin-bottom: 15px;">
+        <span style='display: block; margin-bottom: 5px;'>#{label}</span>
+        #{options_html}
+      </div>
+    HTML
   end
 
   def checkbox(name:, label:, required: false)
@@ -50,3 +61,48 @@ class HTMLForm
       </div>
     HTML
   end
+
+  def button(text:, type: "submit", style: "", link: nil, margin_top: "20px")
+    if link
+      @fields << <<~HTML
+      <div style="text-align: center; margin-top: #{margin_top};">
+        <a href='#{link}' style='#{style}'>#{text}</a>
+      </div>
+    HTML
+    else
+      @fields << <<~HTML
+      <div style="text-align: center; margin-top: #{margin_top};">
+        <button type='#{type}' style='#{style}'>#{text}</button>
+      </div>
+    HTML
+    end
+  end
+
+  def to_html
+    <<~HTML
+      <form action="#{@action}" method="#{@method}" style="max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
+        #{@fields.join("\n")}
+      </form>
+    HTML
+  end
+
+  private
+
+  def input_style
+    "padding: 10px; width: 100%; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px;"
+  end
+
+  def required_attr(required)
+    required ? "required" : ""
+  end
+
+  def add_field_with_label(name, label)
+    label_html = label ? "<label for='#{name}' style='display: block; margin-bottom: 5px;'>#{label}</label>" : ""
+    @fields << <<~HTML
+      <div style="margin-bottom: 15px;">
+        #{label_html}
+        #{yield}
+      </div>
+    HTML
+  end
+end

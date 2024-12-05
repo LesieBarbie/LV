@@ -11,6 +11,12 @@ class FormBuilder
     form.instance_eval(&block)
     form
   end
+
+def self.new_form(action:, method:, &block)
+  form = HTMLForm.new(action: action, method: method)
+  form.instance_eval(&block)
+  form
+end
 end
 
 # Приклад використання DSL
@@ -23,7 +29,8 @@ if __FILE__ == $0
     select_field name: "country", label: "Country", options: ["United States", "Canada", "United Kingdom", "Ukraine"]
     radio_group name: "gender", label: "Gender", options: { male: "Male", female: "Female", other: "Other" }
     checkbox name: "agree_terms", label: "I agree to the terms and conditions", required: true
-    button text: "Register", style: "background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer;"
+    button text: "Register", style: "background-color: #ff82b0; color: white; padding: 10px 20px; border: none; cursor: pointer;"
+    button text: "Secret", style: "background-color: #ff82b0; color: white; padding: 10px 20px; border: none; cursor: pointer;", link: "https://youtu.be/dQw4w9WgXcQ?si=4F12q2Zs4q08bHoX"
   end
 
   puts form_html
